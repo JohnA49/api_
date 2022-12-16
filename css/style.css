@@ -1,1 +1,16 @@
-/*nothing here yet..testing commnads on git*/
+:root {
+  --blue: #1E90FF;
+  --white: #FFFFFF;
+ }
+ body { background-color: var(--blue); }
+ .container {
+  color: var(--blue);
+  background-color: var(--white);
+  padding: 15px;
+  margin: 15px;
+ }
+
+ #searchContainer {
+  text-align: center;
+
+ }
