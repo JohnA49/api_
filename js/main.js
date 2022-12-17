@@ -8,66 +8,39 @@ $(document).ready(function(){
         url:'https://api.stockdata.org/v1/data/quote?symbols='+information,
         data:{
          api_token:'pAU9ED3DrAdzl26R0HQzXGokCoIZjmbu41FLJZuJ',
-         limit:'50'
+       
         }
         
      }).done(function(stockdata){
         console.log(stockdata.data);
         const data=stockdata.data[0];
-        const {ticker,price}=data;
+        //const {ticker,price}=data;
         //console.log(ticker);
         //console.log(price); 
         $('#stockdata_results').html(`
          ${data.ticker}    ${data.price}
       `)//correct
+         const labels = [1,2,3,4,5,6,7]
+         const chartData = {
+            labels: labels,
+            datasets: [{
+               label: 'My First Dataset',
+               data: [65, 59, 80, 81, 56, 55, 40],
+               fill: false,
+               borderColor: 'rgb(75, 192, 192)',
+               tension: 0.1
+            }]
+        }; 
+        const config = {
+         type: 'line',
+         data: chartData,
+       }; 
+       const ctx = document.getElementById('myChart');
+
+       new Chart(ctx, config);
      });
 
   } 
  });
 });
-
-//utilizing the fetclh keyword...
-//console.log('utilize fetch function');
-
-catchCowrie()
-  .then(response=>{
-    //console.log('hurray');
-  })
-
-.catch(error=>{
-     console.log('error');
-     console.error(error);
-});
-async function catchCowrie(){
-  const response= await fetch('cowrie.jpg');
-  const blob= await response.blob();
-  document.getElementById('cowrie').src=URL.createObjectURL(blob); 
-}
-
-/* fetch('cowrie.jpg')
-  .then(response=>{
-    console.log(response);
-    return response.blob();
-   })
-   .then(blob=>{
-     console.log(blob);
-     document.getElementById('cowrie').src=URL.createObjectURL(blob);   
-  })
-   .catch(error=>{
-     console.log('error');
-     console.error(error);
-   });*/
-
-
-//utilzing async and await keywords
- /*
-        const api_url= 'https://api.stockdata.org/v1/data/quote?symbols=AAPL%2CTSLA%2CMSFT&api_token=pAU9ED3DrAdzl26R0HQzXGokCoIZjmbu41FLJZuJ'
-        async function getStockData(){
-         const response= await fetch(api_url);
-         const data= await response.json();
-         console.log(data);
-        }
-
-        getStockData();*/
-
 
