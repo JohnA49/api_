@@ -4,28 +4,41 @@ $(document).ready(function(){
     let information=e.target.value;
 
     //make ajax requst to api-stockdata.org
-     $.ajax({
+    const quotePromise = $.ajax({
         url:'https://api.stockdata.org/v1/data/quote?symbols='+information,
         data:{
          api_token:'pAU9ED3DrAdzl26R0HQzXGokCoIZjmbu41FLJZuJ',
        
         }
         
-     }).done(function(stockdata){
-        console.log(stockdata.data);
-        const data=stockdata.data[0];
+     })
+     const eodPromise= $.ajax({
+      url:'https://api.stockdata.org/v1/data/eod?symbols='+information,
+      data:{
+       api_token:'pAU9ED3DrAdzl26R0HQzXGokCoIZjmbu41FLJZuJ',
+     
+      }
+      
+   })
+     
+     
+   Promise.all([quotePromise, eodPromise]).then(function(stockdata){
+        console.log(stockdata);
+        const data=stockdata[0].data[0];
+        const eodData=stockdata[1].data
+        const prices=eodData.map(item=>item.close)
+        const dates=eodData.map(item=>item.date)
         //const {ticker,price}=data;
         //console.log(ticker);
         //console.log(price); 
         $('#stockdata_results').html(`
          ${data.ticker}    ${data.price}
       `)//correct
-         const labels = [1,2,3,4,5,6,7]
          const chartData = {
-            labels: labels,
+            labels: dates,
             datasets: [{
                label: 'My First Dataset',
-               data: [65, 59, 80, 81, 56, 55, 40],
+               data: prices,
                fill: false,
                borderColor: 'rgb(75, 192, 192)',
                tension: 0.1
